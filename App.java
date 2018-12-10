@@ -1,21 +1,26 @@
 package com.realtime;
 
-import java.io.IOException;
+import java.util.concurrent.*;
 
 public class App {
 
-    static String pdfFile = "C:\\Users\\SCS\\Desktop\\studentList.pdf";
+    public static String pdfFile1 = "C:\\Users\\SCS\\Desktop\\studentList.pdf";
+    public static String pdfFile2 = "C:\\Users\\SCS\\Desktop\\article.pdf";
 
-    public static void main( String[] args ) throws IOException {
-        opraterReading opraterReading = new opraterReading();
-        opraterReading.setOperateReading(new readPdf());
+    public static void main( String[] args ) throws InterruptedException {
+        Rthread threadClass = new Rthread();
+        Rgraph rgraph = new Rgraph();
+        ExecutorService service = Executors.newFixedThreadPool(1);
 
-        //opraterReading.readPDF(pdfFile);
-        if(opraterReading.testRead(opraterReading.readPDF(pdfFile)) == true) {
-            opraterReading.wordCounting(opraterReading.readPDF(pdfFile));
-            opraterReading.charCounting(opraterReading.readPDF(pdfFile));
-        }
-        else
-            System.out.println("Failed to READ PDF File. Stupid dickHead");
+        service.execute(threadClass.thread1(pdfFile1));
+        service.execute(threadClass.thread1(pdfFile2));
+        threadClass.join();
+        service.shutdown();
+        double [] x ={1,5,6,8};
+        double [] y ={100,200,300,400};
+        double[][] xy = {x,y};
+        //rgraph.createChart(xy);
+        //rgraph.swing();
+
     }
 }
