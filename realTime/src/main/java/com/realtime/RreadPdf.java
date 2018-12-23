@@ -8,8 +8,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.concurrent.RecursiveTask;
 
-public class RreadPdf implements interfaceReading {
+public class RreadPdf extends RecursiveTask <Integer> implements interfaceReading {
 
     String text = null;
     int charCount = 0;
@@ -17,6 +18,7 @@ public class RreadPdf implements interfaceReading {
     Scanner scanner;
     String word;
     ArrayList<String> words= new ArrayList<>();
+    int numC, numW;
 
     @Override
     public String readPDF(String fileName) throws IOException {
@@ -38,6 +40,14 @@ public class RreadPdf implements interfaceReading {
         return text;
     }
 
+    public RreadPdf(){
+        //Empty Constructor
+    }
+
+    public RreadPdf (String text){
+        this.text = text;
+    }
+
     @Override
     public boolean testRead(String text) throws InterruptedException {
         if(text == null) {
@@ -51,8 +61,8 @@ public class RreadPdf implements interfaceReading {
         return testing;
     }
 
-    @Override
-    public int getWord(String text){
+
+    public ArrayList<String> getWord(String text){
         try {
             scanner = new Scanner(text);
             if (!scanner.hasNext()) {
@@ -70,9 +80,9 @@ public class RreadPdf implements interfaceReading {
             e.printStackTrace();
         }
         //System.out.println(words.size());
-        return words.size();
+        return words;
     }
-
+/*
     @Override
     public int wordCounting(String text) throws InterruptedException {
         synchronized (this) {
@@ -97,5 +107,36 @@ public class RreadPdf implements interfaceReading {
         }//End For
         Thread.sleep(1000);
         return charCount;
+    }
+    */
+
+    @Override
+    protected Integer compute() {
+        try {
+            if(text != null){
+                //Word Counting
+                String text1 = text;
+                String[] words = text.split("\\s+");
+                numW = words.length;
+
+                String lines[] = text1.split("\\r\n");
+                for (String line : lines) {
+                    //start
+                    String[] word1 = line.split(" ");
+                    for (String word11 : word1) {
+                        charCount += word11.length();
+                    }//end
+                }//End For
+                numC = charCount;
+
+            }else {
+                RreadPdf wordCount = new RreadPdf(text);
+                wordCount.fork();
+                wordCount.join();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return  numW + numC;
     }
 }

@@ -2,8 +2,6 @@ package com.realtime;
 
 public class RstandardDeviationFormula implements interfaceStandardDeviation {
 
-    Manager manager = new Manager();
-
     @Override
     public double divide (double x,double y) {
         double divide = x / y;
@@ -28,11 +26,4 @@ public class RstandardDeviationFormula implements interfaceStandardDeviation {
         return squareRoot;
     }
 
-    public double[] list(){
-        Rthread rthread = new Rthread();
-        //manager.getWord(manager.readPDF())
-        double [] sd = new double[rthread.size];
-        rthread.array = sd;
-        return sd;
-    }
 }

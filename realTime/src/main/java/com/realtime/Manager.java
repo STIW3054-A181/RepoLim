@@ -6,13 +6,14 @@ import org.knowm.xchart.XYChart;
 import java.io.IOException;
 
 public class Manager implements interfaceReading, interfaceThread, interfaceGraph,
-        interfacePrintingResult, interfaceStandardDeviation {
+        interfacePrintingResult, interfaceStandardDeviation, interfaceZscore {
     //public Runnable readPdf;
     private interfaceReading or;
     private interfaceThread interfaceThread;
     private interfaceGraph graphInterface;
     private interfacePrintingResult printing;
     private interfaceStandardDeviation standardDeviation;
+    private interfaceZscore interfaceZscore;
 
     public void setOperateReading(RreadPdf or){
         this.or = or;
@@ -33,6 +34,7 @@ public class Manager implements interfaceReading, interfaceThread, interfaceGrap
         return this.or.testRead(text);
     }
 
+    /*
     @Override
     public int getWord(String text){
         return this.or.getWord(text);
@@ -47,6 +49,7 @@ public class Manager implements interfaceReading, interfaceThread, interfaceGrap
     public int charCounting(String text) throws InterruptedException {
         return this.or.charCounting(text);
     }
+    */
 
     /*
                 Thread Method --> Inside running all function
@@ -72,8 +75,8 @@ public class Manager implements interfaceReading, interfaceThread, interfaceGrap
     }
 
     @Override
-    public double [][] xyValue(double second, double value){
-        return this.graphInterface.xyValue(second, value);
+    public double [][] xyValue(double size, double [] value){
+        return this.graphInterface.xyValue(size, value);
     }
 
     @Override
@@ -87,8 +90,8 @@ public class Manager implements interfaceReading, interfaceThread, interfaceGrap
     }
 
     @Override
-    public void updateChart(double [][] xyvalue) {
-        this.graphInterface.updateChart(xyvalue);
+    public void updateChart(double [] yvalue) {
+        this.graphInterface.updateChart(yvalue);
     }
 
     /*
@@ -98,6 +101,11 @@ public class Manager implements interfaceReading, interfaceThread, interfaceGrap
 
     public void setPrinting(Rprinting printing){
         this.printing = printing;
+    }
+
+    @Override
+    public void printStart(){
+        this.printing.printStart();
     }
 
     @Override
@@ -113,6 +121,21 @@ public class Manager implements interfaceReading, interfaceThread, interfaceGrap
     @Override
     public void printChar(int word) {
         this.printing.printChar(word);
+    }
+
+    @Override
+    public void printSD(double sd){
+        this.printing.printSD(sd);
+    }
+
+    @Override
+    public void printZscore(double zscore){
+        this.printing.printZscore(zscore);
+    }
+
+    @Override
+    public void printEnd(){
+        this.printing.printEnd();
     }
 
 
@@ -144,6 +167,20 @@ public class Manager implements interfaceReading, interfaceThread, interfaceGrap
     @Override
     public double SquareRoot(double x) {
         return this.standardDeviation.SquareRoot(x);
+    }
+
+    public void countZScore(interfaceZscore interfaceZscoreValue){
+        this.interfaceZscore = interfaceZscoreValue;
+    }
+
+    @Override
+    public double dividez(double x, double y) {
+        return this.interfaceZscore.dividez(x,y);
+    }
+
+    @Override
+    public double minusz(double x, double y) {
+        return this.interfaceZscore.minusz(x,y);
     }
 
     //@Override

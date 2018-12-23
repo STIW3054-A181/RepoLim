@@ -3,7 +3,9 @@ package com.realtime;
 import org.knowm.xchart.QuickChart;
 import org.knowm.xchart.SwingWrapper;
 import org.knowm.xchart.XYChart;
+import org.knowm.xchart.XYSeries;
 import org.knowm.xchart.style.Styler;
+import org.knowm.xchart.style.markers.SeriesMarkers;
 
 import java.awt.*;
 
@@ -17,23 +19,16 @@ public class Rgraph implements interfaceGraph {
 
 
     @Override
-    public double [][] xyValue(double second, double value){
+    public double [][] xyValue(double size, double []value){
         synchronized(this) {
-            Rthread rthread = new Rthread();
-            StoreSD storeSD = new StoreSD();
-            App app = new App();
+            x = new double[2];
+            y = new double[2];
 
-            x = new double[10];
-            y = new double[10];
-
-
-            for(int a = 0; a < 2; a++) {
-                counter = a + (1 * Math.PI / x.length * a);
-                x[a] = a+1;
-                y[(int) second] = value;
+            for(int a = 1; a <= size; a++) {
+                //counter = a + (1 * Math.PI / x.length * a);
+                x[a] = size;
+                y[a] = value[a-1];
             }
-
-
             return new double[][]{x, y};
         }
     }
@@ -41,7 +36,7 @@ public class Rgraph implements interfaceGraph {
     @Override
     public XYChart createChart(double [][] xyvalue) {
         chart = QuickChart.getChart(
-                        "Standard Deviation of Character per Word",
+                        "Standard Deviation per PDF File",
                         "Number of File",
                         "Standard Deviation",
                         "Value",
@@ -49,7 +44,6 @@ public class Rgraph implements interfaceGraph {
                         xyvalue[1]
                 );
         chart.getStyler().setLegendVisible(true);
-        //chart.getStyler().setLegendPosition(Styler.LegendPosition.InsideSW);
         chart.getStyler().setXAxisTicksVisible(true);
         chart.getStyler().setToolTipsEnabled(true);
         chart.getStyler().setSeriesColors(
@@ -70,8 +64,10 @@ public class Rgraph implements interfaceGraph {
     }
 
     @Override
-    public void updateChart(double [][] xyvalue) {
-        chart.updateXYSeries("Value", xyvalue[0], xyvalue[1], null);
+    public void updateChart(double [] yvalue) {
+        XYSeries series = chart.updateXYSeries("Value", null, yvalue, null);
+        series.setMarker(SeriesMarkers.CIRCLE);
+        series.setMarkerColor(Color.ORANGE);
         swing.repaintChart();
     }
 }

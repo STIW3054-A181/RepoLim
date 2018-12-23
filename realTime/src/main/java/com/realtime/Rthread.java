@@ -2,20 +2,23 @@ package com.realtime;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.ForkJoinPool;
 
-public class Rthread extends Thread implements interfaceThread {
+public class Rthread extends Thread implements interfaceThread{
 
     public int totalWord, totalChar;
     public double mean;
     public double minus;
+    public double minuz;
     public double square;
     public double standardDeviation;
     public double variance;
+    public double zScore;
 
-    int size = 0;
-    //StoreSD storeSD;
 
-    double array[];
+    int charCount; // --> Count char
+    int array1 [];
+
     // Store each Standard Deviation in the Array
     ArrayList <StoreSD> list = new ArrayList <StoreSD>();
 
@@ -32,51 +35,103 @@ public class Rthread extends Thread implements interfaceThread {
             Manager countSD = new Manager();
             countSD.countStandardDeviation(new RstandardDeviationFormula());
 
-            try {
+            Manager countZscore = new Manager();
+            countZscore.countZScore(new RzscoreFormula());
 
-                totalWord = reading.wordCounting(reading.readPDF(fileName)); //Total Words
-                totalChar = reading.charCounting(reading.readPDF(fileName)); //Total Character
+            printing.printStart();
+
+            try {
+                ForkJoinPool forkJoinPool = new ForkJoinPool();
+                RreadPdf rreadPdf = new RreadPdf(reading.readPDF(fileName));
+                forkJoinPool.invoke(rreadPdf);
+
+                totalWord = rreadPdf.numW;
+                totalChar = rreadPdf.numC;
 
                 if (reading.testRead(reading.readPDF(fileName)) == true) {
-                    //Thread.sleep(1000);
                     printing.printFileName(fileName);
                     printing.printWord(totalWord);
                     printing.printChar(totalChar);
 
-                            /*
+                    String text = rreadPdf.readPDF(fileName); // ---> Get the Text Again
+                    array1 = new int[3000];
+                    int c = 0;
 
-                                    Calculate the Standard Deviation According to
-                                    the Number of Words from the PDF File.
-                                    Formula:
-                                    SD = Sqr of { [ (X - mean)^2 ] / totalWord }
-
-                             */
-
-                    //Get Mean Value for the PDF File
-                    // Total Number divide Total Character = Mean
-                    mean = countSD.divide(totalWord, totalChar);
-
-                    //For each X value minus Mean
-                    minus = countSD.minus(totalWord, mean);
-
-                    //Then Power 2 of the [ X minus Mean ]
-                    square = countSD.power(minus,2);
-
-                    //Variance = Answer from the Above divide Total Number of Words
-                    variance = countSD.divide(square, totalWord);//square (total-mean)/n
-
-                    //Standard Deviation = Square Root of the Variance [answer from the Previous]
-                    standardDeviation = countSD.SquareRoot(variance);
-                    StoreSD storeSD = new StoreSD(standardDeviation);
-                    list.add(storeSD);
-
-                    for(int a = 0; a < list.size(); a++){
-                        System.out.println(list.size());
+                    String lines[] = text.split("\\r\n");
+                    for (String line : lines) {
+                        //start
+                        String[] words = line.split(" ");
+                        for (String word : words) {
+                            array1[c] = word.length();
+                            charCount += word.length();
+                            c++;
+                        }//end
                     }
 
+                    System.out.println("\nStandard Deviation for Each Word");
+                    double array_SD [] = new double[totalWord];
+                    double array_Zscore [] = new double[totalWord];
 
+                    /*
+
+                            Calculate the Standard Deviation According to
+                            the Number of Words from the PDF File.
+                            Formula:
+                            SD = Sqr of { [ (X - mean)^2 ] / totalWord }
+
+                    */
+
+                    Thread.sleep(2000);
+                    mean = countSD.divide(totalWord, totalChar);// --> Get the Mean value 1st
+                    double sad = totalChar / totalWord;
+                    for(int b = 0; b < totalWord; b++){
+                        //Thread.sleep(50);
+
+                        //For each X value minus Mean
+                        minus = countSD.minus(array1[b], mean);
+
+                        //Then Power 2 of the [ X minus Mean ]
+                        square = countSD.power(minus,2);
+
+                        //Variance = Answer from the Above divide Total Number of Words
+                        variance = countSD.divide(square, totalWord);//square (total-mean)/n
+
+                        //Standard Deviation = Square Root of the Variance [answer from the Previous]
+                        standardDeviation = countSD.SquareRoot(variance);
+
+                        array_SD[b] = standardDeviation; //---> Store in array for calculate total SD
+
+                        //array_Zscore[b] = zScore;        //---> Store in array for calculate total Zscore
+
+                        System.out.println("Word Index " + (b+1) + " : SD --> " + standardDeviation);
+                    }
+
+                    double total_SD = 0; // --> To add Total Standard Deviation from this Current PDF
+                    //double total_Zscore = 0; // --> To add Total Zscore from this current PDF
+                    //total_Zscore = zScore;
+                    for(int b = 0; b < array_SD.length; b++){
+                        double value1 = array_SD[b];
+                        //double value2 = array_Zscore[b];
+                        total_SD = total_SD + value1;
+                        //total_Zscore = total_Zscore + value2;
+                    }
+
+                    minuz = countZscore.minusz(totalWord, mean);
+                    zScore = countZscore.dividez(minuz, total_SD);
+
+                    //Store the Total SD Value to plot graph
+                    StoreSD storeSD = new StoreSD(total_SD);
+                    list.add(storeSD);
+
+                    //Print out Total Standard Deviation Value
+                    printing.printSD(total_SD);
+                    printing.printZscore(zScore);
+
+                    //End
+                    printing.printEnd();
                 } else
                     System.out.println("Failed to READ PDF File.");
+
             }catch (IOException e){
                 e.printStackTrace();
             }catch (InterruptedException e){
@@ -84,16 +139,5 @@ public class Rthread extends Thread implements interfaceThread {
             }
         }
         return this;
-
-        }//end Syncrhonized
-
-
-
-    public void generateGraph(){
-        Manager graph = new Manager();
-        graph.displayGraph(new Rgraph());
-        double counter = 0.0;
-        System.out.println("Mother f"+list.size());
-    }
-
+    }//end Syncrhonized
 }
