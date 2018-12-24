@@ -15,8 +15,6 @@ public class Rthread extends Thread implements interfaceThread{
     public double variance;
     public double zScore;
 
-
-    int charCount; // --> Count char
     int array1 [];
 
     // Store each Standard Deviation in the Array
@@ -55,22 +53,10 @@ public class Rthread extends Thread implements interfaceThread{
 
                     String text = rreadPdf.readPDF(fileName); // ---> Get the Text Again
                     array1 = new int[3000];
-                    int c = 0;
-
-                    String lines[] = text.split("\\r\n");
-                    for (String line : lines) {
-                        //start
-                        String[] words = line.split(" ");
-                        for (String word : words) {
-                            array1[c] = word.length();
-                            charCount += word.length();
-                            c++;
-                        }//end
-                    }
+                    array1 = rreadPdf.getWord(text);
 
                     System.out.println("\nStandard Deviation for Each Word");
                     double array_SD [] = new double[totalWord];
-                    double array_Zscore [] = new double[totalWord];
 
                     /*
 
@@ -83,7 +69,6 @@ public class Rthread extends Thread implements interfaceThread{
 
                     Thread.sleep(2000);
                     mean = countSD.divide(totalWord, totalChar);// --> Get the Mean value 1st
-                    double sad = totalChar / totalWord;
                     for(int b = 0; b < totalWord; b++){
                         //Thread.sleep(50);
 
@@ -100,15 +85,11 @@ public class Rthread extends Thread implements interfaceThread{
                         standardDeviation = countSD.SquareRoot(variance);
 
                         array_SD[b] = standardDeviation; //---> Store in array for calculate total SD
-
-                        //array_Zscore[b] = zScore;        //---> Store in array for calculate total Zscore
-
                         System.out.println("Word Index " + (b+1) + " : SD --> " + standardDeviation);
                     }
 
                     double total_SD = 0; // --> To add Total Standard Deviation from this Current PDF
                     //double total_Zscore = 0; // --> To add Total Zscore from this current PDF
-                    //total_Zscore = zScore;
                     for(int b = 0; b < array_SD.length; b++){
                         double value1 = array_SD[b];
                         //double value2 = array_Zscore[b];

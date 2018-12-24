@@ -6,8 +6,6 @@ import org.apache.pdfbox.text.PDFTextStripperByArea;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.concurrent.RecursiveTask;
 
 public class RreadPdf extends RecursiveTask <Integer> implements interfaceReading {
@@ -15,9 +13,6 @@ public class RreadPdf extends RecursiveTask <Integer> implements interfaceReadin
     String text = null;
     int charCount = 0;
     boolean testing = false;
-    Scanner scanner;
-    String word;
-    ArrayList<String> words= new ArrayList<>();
     int numC, numW;
 
     @Override
@@ -31,7 +26,7 @@ public class RreadPdf extends RecursiveTask <Integer> implements interfaceReadin
                 PDFTextStripper tStripper = new PDFTextStripper();
                 text = tStripper.getText(pdDocument);
 
-                //Clear... Successfully read the fcking file.
+                //Clear... Successfully read the file.
                 //System.out.println(text);
 
                 pdDocument.close();
@@ -62,53 +57,21 @@ public class RreadPdf extends RecursiveTask <Integer> implements interfaceReadin
     }
 
 
-    public ArrayList<String> getWord(String text){
-        try {
-            scanner = new Scanner(text);
-            if (!scanner.hasNext()) {
-                System.out.println("Text is Null.. Try Again");
-                //System.exit(0);
-            } else {
-                //Thread.sleep(1000);
-                while (scanner.hasNext()) {
-                    word = scanner.next();
-                    words.add(word);
-                }//End while Loops
-                //System.out.println(words.size());
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        //System.out.println(words.size());
-        return words;
-    }
-/*
-    @Override
-    public int wordCounting(String text) throws InterruptedException {
-        synchronized (this) {
-            if (text == null || text.isEmpty()) {
-                return 0;
-            }
-            Thread.sleep(1000);
-            String[] words = text.split("\\s+");
-            return words.length;
-        }
-    }
-
-    @Override
-    public int charCounting(String text) throws InterruptedException {
+    public int[] getWord(String text){
         String lines[] = text.split("\\r\n");
+        int c = 0;
+        int arrayWord [] = new int[3000];
         for (String line : lines) {
             //start
             String[] words = line.split(" ");
             for (String word : words) {
+                arrayWord[c] = word.length();
                 charCount += word.length();
+                c++;
             }//end
-        }//End For
-        Thread.sleep(1000);
-        return charCount;
+        }
+        return arrayWord;
     }
-    */
 
     @Override
     protected Integer compute() {

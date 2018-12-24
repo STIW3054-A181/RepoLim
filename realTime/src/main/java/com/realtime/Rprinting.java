@@ -1,13 +1,17 @@
 package com.realtime;
 
 import java.io.File;
-import java.text.DecimalFormat;
 
 public class Rprinting implements interfacePrintingResult {
 
     @Override
     public void printStart(){
-        System.out.println("\n\n ====================    START ANALYSING    ==================== \n\n");
+        try {
+            Thread.sleep(1000);
+            System.out.println("\n\n ====================    START ANALYSING    ==================== \n\n");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -74,7 +78,12 @@ public class Rprinting implements interfacePrintingResult {
 
     @Override
     public void printEnd(){
-        System.out.println("\n\n ====================     ANALYSING END    ==================== \n\n");
+        try {
+            Thread.sleep(1000);
+            System.out.println("\n\n ====================     ANALYSING END    ==================== \n\n");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
 }

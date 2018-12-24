@@ -5,6 +5,5 @@ public interface interfaceStandardDeviation {
     double minus(double x, double y);
     double power(double x, int y);
     double SquareRoot(double x);
-    //double[] list(double sdValue);
 
 }

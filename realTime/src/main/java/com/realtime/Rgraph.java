@@ -4,7 +4,6 @@ import org.knowm.xchart.QuickChart;
 import org.knowm.xchart.SwingWrapper;
 import org.knowm.xchart.XYChart;
 import org.knowm.xchart.XYSeries;
-import org.knowm.xchart.style.Styler;
 import org.knowm.xchart.style.markers.SeriesMarkers;
 
 import java.awt.*;
@@ -13,7 +12,6 @@ public class Rgraph implements interfaceGraph {
 
     XYChart chart = null;
     SwingWrapper <XYChart> swing = null;
-    double counter = 0;
     public double [] x;
     public double [] y;
 
@@ -25,7 +23,6 @@ public class Rgraph implements interfaceGraph {
             y = new double[2];
 
             for(int a = 1; a <= size; a++) {
-                //counter = a + (1 * Math.PI / x.length * a);
                 x[a] = size;
                 y[a] = value[a-1];
             }
@@ -66,8 +63,8 @@ public class Rgraph implements interfaceGraph {
     @Override
     public void updateChart(double [] yvalue) {
         XYSeries series = chart.updateXYSeries("Value", null, yvalue, null);
-        series.setMarker(SeriesMarkers.CIRCLE);
-        series.setMarkerColor(Color.ORANGE);
+        series.setMarker(SeriesMarkers.CROSS);
+        series.setMarkerColor(Color.BLUE);
         swing.repaintChart();
     }
 }

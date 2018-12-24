@@ -1,19 +1,23 @@
 package com.realtime;
 
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.statistics.BoxAndWhiskerCategoryDataset;
 import org.knowm.xchart.SwingWrapper;
 import org.knowm.xchart.XYChart;
 
 import java.io.IOException;
+import java.util.List;
 
 public class Manager implements interfaceReading, interfaceThread, interfaceGraph,
-        interfacePrintingResult, interfaceStandardDeviation, interfaceZscore {
-    //public Runnable readPdf;
+        interfacePrintingResult, interfaceStandardDeviation, interfaceZscore, interfaceBoxplot{
+
     private interfaceReading or;
     private interfaceThread interfaceThread;
     private interfaceGraph graphInterface;
     private interfacePrintingResult printing;
     private interfaceStandardDeviation standardDeviation;
     private interfaceZscore interfaceZscore;
+    private interfaceBoxplot boxplotInterface;
 
     public void setOperateReading(RreadPdf or){
         this.or = or;
@@ -34,22 +38,12 @@ public class Manager implements interfaceReading, interfaceThread, interfaceGrap
         return this.or.testRead(text);
     }
 
-    /*
+
     @Override
-    public int getWord(String text){
+    public int[] getWord(String text){
         return this.or.getWord(text);
     }
 
-    @Override
-    public int wordCounting(String text) throws InterruptedException {
-        return this.or.wordCounting(text);
-    }
-
-    @Override
-    public int charCounting(String text) throws InterruptedException {
-        return this.or.charCounting(text);
-    }
-    */
 
     /*
                 Thread Method --> Inside running all function
@@ -169,6 +163,12 @@ public class Manager implements interfaceReading, interfaceThread, interfaceGrap
         return this.standardDeviation.SquareRoot(x);
     }
 
+    /*
+
+                Count Z-Score
+
+     */
+
     public void countZScore(interfaceZscore interfaceZscoreValue){
         this.interfaceZscore = interfaceZscoreValue;
     }
@@ -183,8 +183,25 @@ public class Manager implements interfaceReading, interfaceThread, interfaceGrap
         return this.interfaceZscore.minusz(x,y);
     }
 
-    //@Override
-    //public double[] list(double sdValue){
-    //    return this.standardDeviation.list(sdValue);
-    //}
+    /*
+
+            Create BoxPlot
+
+     */
+
+    public void setBoxplotInterface(interfaceBoxplot boxplotInterface){
+        this.boxplotInterface = boxplotInterface;
+    }
+
+    @Override
+    public BoxAndWhiskerCategoryDataset createDataset() {
+        return this.boxplotInterface.createDataset();
+    }
+
+
+    @Override
+    public JFreeChart createChart(BoxAndWhiskerCategoryDataset boxAndWhiskerCategoryDataset) {
+        return this.boxplotInterface.createChart(boxAndWhiskerCategoryDataset);
+    }
+
 }
