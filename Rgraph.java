@@ -1,4 +1,3 @@
-package com.realtime;
 
 import org.knowm.xchart.QuickChart;
 import org.knowm.xchart.SwingWrapper;

@@ -1,4 +1,3 @@
-package com.realtime;
 
 import java.io.IOException;
 
