@@ -34,7 +34,7 @@ public class Rgraph implements interfaceGraph {
     public XYChart createChart(double [][] xyvalue) {
         chart = QuickChart.getChart(
                         "Standard Deviation per PDF File",
-                        "Number of File",
+                        "Index of PDF File",
                         "Standard Deviation",
                         "Value",
                         xyvalue[0],
