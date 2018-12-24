@@ -1,3 +1,4 @@
+
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.apache.pdfbox.text.PDFTextStripperByArea;
@@ -35,11 +36,18 @@ public class readPdf implements operateReading {
         if(text == null) {
             System.out.println("The PDF File is Empty! ");
         }else {
+
             System.out.println("Successfully read the PDF File!");
             testing = true;
         }
         return testing;
 
+
+
+            System.out.println("Successfully read the PDF File! Kopi Is so Strong !!");
+            testing = true;
+        }
+        return testing;
 
     }
 

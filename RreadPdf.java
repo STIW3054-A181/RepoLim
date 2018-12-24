@@ -1,9 +1,11 @@
+
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.apache.pdfbox.text.PDFTextStripperByArea;
 
 import java.io.File;
 import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.concurrent.RecursiveTask;
@@ -18,6 +20,13 @@ public class RreadPdf extends RecursiveTask <Integer> implements interfaceReadin
     ArrayList<String> words= new ArrayList<>();
     int numC, numW;
 
+
+public class RreadPdf implements interfaceReading {
+    String text = null;
+    int charCount = 0;
+    boolean testing = false;
+
+
     @Override
     public String readPDF(String fileName) throws IOException {
 
@@ -30,6 +39,7 @@ public class RreadPdf extends RecursiveTask <Integer> implements interfaceReadin
                 text = tStripper.getText(pdDocument);
 
                 //Clear... Successfully read
+
                 //System.out.println(text);
 
                 pdDocument.close();
@@ -37,6 +47,7 @@ public class RreadPdf extends RecursiveTask <Integer> implements interfaceReadin
         }//End Try
         return text;
     }
+
 
     public RreadPdf(){
         //Empty Constructor
@@ -46,14 +57,17 @@ public class RreadPdf extends RecursiveTask <Integer> implements interfaceReadin
         this.text = text;
     }
 
+
     @Override
     public boolean testRead(String text) throws InterruptedException {
         if(text == null) {
             System.out.println("The PDF File is Empty! ");
+
             System.exit(0);
             //End the Program
         }else {
             Thread.sleep(1000);
+
             testing = true;
         }
         return testing;
@@ -82,6 +96,7 @@ public class RreadPdf extends RecursiveTask <Integer> implements interfaceReadin
         return words.size();
     }
 
+
     @Override
     public int wordCounting(String text) throws InterruptedException {
         synchronized (this) {
@@ -90,6 +105,9 @@ public class RreadPdf extends RecursiveTask <Integer> implements interfaceReadin
             }
             Thread.sleep(1000);
             String[] words = text.split("\\s+");
+
+            //System.out.println("Number of Word in PDF file : " + words.length);
+
             return words.length;
         }
     }
@@ -105,6 +123,7 @@ public class RreadPdf extends RecursiveTask <Integer> implements interfaceReadin
             }//end
         }//End For
         Thread.sleep(1000);
+
         return charCount;
     }
 
@@ -139,3 +158,9 @@ public class RreadPdf extends RecursiveTask <Integer> implements interfaceReadin
         return  numW + numC;
     }
 }
+
+        //System.out.println("Number of Character in PDF File : " + charCount);
+        return charCount;
+    }
+}
+

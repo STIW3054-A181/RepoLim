@@ -1,3 +1,4 @@
+
 import org.knowm.xchart.SwingWrapper;
 import org.knowm.xchart.XYChart;
 
@@ -6,14 +7,18 @@ import java.io.IOException;
 public class Manager implements interfaceReading, interfaceThread, interfaceGraph, interfacePrintingResult {
     public Runnable readPdf;
     private interfaceReading or;
+
     private formula standardDeviation;
+
     private interfaceThread interfaceThread;
     private interfaceGraph graphInterface;
     private interfacePrintingResult printing;
 
+
     public void setFormula(formula standardDeviation) {
         this.standardDeviation = standardDeviation;
     }
+
 
     public void setOperateReading(RreadPdf or){
         this.or = or;
@@ -60,6 +65,7 @@ public class Manager implements interfaceReading, interfaceThread, interfaceGrap
      */
 
 
+
     public double divide(double x,double y)
     {
         return this.standardDeviation.divide(x, y);
@@ -78,6 +84,7 @@ public class Manager implements interfaceReading, interfaceThread, interfaceGrap
     public double SquareRoot(double x) {
         return this.standardDeviation.SquareRoot(x);
     }
+
 
     @Override
     public XYChart createChart(double[][] xyvalue) {
@@ -114,8 +121,10 @@ public class Manager implements interfaceReading, interfaceThread, interfaceGrap
         this.printing.printChar(word);
     }
 
+
     @Override
     public void printStandardDeviation(double num) {
         this.printing.printStandardDeviation(num);
     }
+
 }

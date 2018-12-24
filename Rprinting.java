@@ -1,3 +1,4 @@
+
 import java.io.File;
 
 public class Rprinting implements interfacePrintingResult {
@@ -24,9 +25,11 @@ public class Rprinting implements interfacePrintingResult {
         }
     }
 
+
     public void printStandardDeviation(double num){
         synchronized (this){
             System.out.println("Standard Deviation="+num);
         }
     }
+
 }
