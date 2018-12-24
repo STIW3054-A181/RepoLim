@@ -6,7 +6,6 @@ import org.knowm.xchart.SwingWrapper;
 import org.knowm.xchart.XYChart;
 
 import java.io.IOException;
-import java.util.List;
 
 public class Manager implements interfaceReading, interfaceThread, interfaceGraph,
         interfacePrintingResult, interfaceStandardDeviation, interfaceZscore, interfaceBoxplot{
