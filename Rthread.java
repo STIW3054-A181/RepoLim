@@ -1,3 +1,4 @@
+
 package com.realtime;
 
 import java.io.IOException;
@@ -122,3 +123,4 @@ public class Rthread extends Thread implements interfaceThread{
         return this;
     }//end Syncrhonized
 }
+

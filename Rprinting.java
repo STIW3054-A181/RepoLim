@@ -1,3 +1,4 @@
+
 package com.realtime;
 
 import java.io.File;
@@ -87,3 +88,4 @@ public class Rprinting implements interfacePrintingResult {
     }
 
 }
+

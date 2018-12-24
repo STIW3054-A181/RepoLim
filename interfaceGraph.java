@@ -1,3 +1,4 @@
+
 package com.realtime;
 
 import org.knowm.xchart.SwingWrapper;
@@ -9,3 +10,4 @@ public interface interfaceGraph {
     SwingWrapper swing();
     void updateChart(double [] yvalue);
 }
+

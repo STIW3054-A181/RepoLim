@@ -1,3 +1,4 @@
+
 package com.realtime;
 
 public interface interfacePrintingResult {
@@ -9,3 +10,4 @@ public interface interfacePrintingResult {
     void printZscore(double zscore);
     void printEnd();
 }
+

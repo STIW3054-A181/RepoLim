@@ -1,3 +1,4 @@
+
 package com.realtime;
 
 import java.io.IOException;
@@ -7,3 +8,4 @@ public interface interfaceReading {
     boolean testRead(String text) throws InterruptedException;
     int[] getWord(String text);
 }
+

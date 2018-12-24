@@ -1,3 +1,4 @@
+
 package com.realtime;
 
 import org.jfree.chart.ui.UIUtils;
@@ -81,3 +82,4 @@ public class App {
         }
     }//End of Main Method
 }//End Class
+
